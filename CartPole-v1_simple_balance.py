@@ -11,16 +11,21 @@ class Agent():
         print("Action size: ", self.action_size)
 
     def get_action(self, state):
-#        action = random.choice(range(self.action_size))
         pole_angle = state[2]
         action = 0 if pole_angle < 0 else 1
         return action
 
 
 agent = Agent(env)
-state = env.reset()
+num_episodes = 100
 
-for _ in range(200):
-    action = agent.get_action(state)
-    state, reward, done, info = env.step(action)
-    env.render()
+for ep in range(num_episodes):
+    state = env.reset()
+    total_reward = 0
+    done = False
+    while not done:
+        action = agent.get_action(state)
+        state, reward, done, info = env.step(action)
+        env.render()
+        total_reward += reward
+    print("Episode: {}, total_reward: {:.2f}".format(ep, total_reward))

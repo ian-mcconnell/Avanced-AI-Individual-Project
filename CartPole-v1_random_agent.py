@@ -15,9 +15,15 @@ class Agent():
 
 
 agent = Agent(env)
-state = env.reset()
+num_episodes = 100
 
-for _ in range(200):
-    action = agent.get_action()
-    env.step(action)
-    env.render()
+for ep in range(num_episodes):
+    state = env.reset()
+    total_reward = 0
+    done = False
+    while not done:
+        action = agent.get_action()
+        state, reward, done, info = env.step(action)
+        env.render()
+        total_reward += reward
+    print("Episode: {}, total_reward: {:.2f}".format(ep, total_reward))
